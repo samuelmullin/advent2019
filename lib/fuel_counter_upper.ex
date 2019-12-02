@@ -7,6 +7,7 @@ defmodule Advent.FuelCounterUpper do
     end
 
     def calculate_module_required_fuel(mass), do: Integer.floor_div(mass, 3) - 2
+    
     def calculate_total_required_fuel(module_masses) do
       module_masses
       |> Enum.reduce(0, fn module, total -> total + recursive_calculate_module_required_fuel(module, 0) end)
