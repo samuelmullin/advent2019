@@ -5,10 +5,15 @@ defmodule Advent.IntcodeProcessor do
     |> process_opcode_list()
   end
 
-  def problem2(noun \\ 0, verb \\ 0) do
-    with input    <- get_input(noun, verb),
-         output   <- process_opcode_list(input),
-         19690720 <- Enum.at(output, 0)
+  def problem2() do
+    {noun, verb} = find_target_value(19690720)
+    100 * noun + verb
+  end
+
+  def find_target_value(target_value, noun \\ 0, verb \\ 0) do
+    with input        <- get_input(noun, verb),
+         output       <- process_opcode_list(input),
+         true         <- Enum.at(output, 0) == target_value
     do
         {noun, verb}
     else
@@ -17,7 +22,7 @@ defmodule Advent.IntcodeProcessor do
           false -> {noun + 1, verb}
           true  -> {0, verb + 1}
         end
-        problem2(noun, verb)
+        find_target_value(target_value, noun, verb)
     end
   end
 
